@@ -1,0 +1,32 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+  </head>
+  <body>
+    
+     {{#if user}}
+      <p>Hola, {{user.first_name}} {{user.last_name}}</p>
+      {{> profile}}
+      
+      {{#if user.cart }}
+        <a href="/api/cart/{{user.cart}}"> 
+          <span id="shopping-Bag" class="material-symbols-outlined">
+            shopping_bag
+          </span>
+        </a>
+      {{else}}
+        <p>No cart found for the user</p>
+      {{/if}}
+      
+    {{else}}
+      <a href="/api/sessions/login">Log In to buy</a>
+      <a href="/api/sessions/register">Register</a>
+    {{/if}}
+
+
+    {{> products}}
+   
+  </body>
+</html>

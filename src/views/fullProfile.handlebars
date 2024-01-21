@@ -1,0 +1,23 @@
+<p>Perfil: {{role}}</p>
+<p>Nombre: {{first_name}} {{last_name}}</p>
+<p>Email: {{email}}</p>
+
+<form
+  action="/api/sessions/profilePicUpload"
+  method="post"
+  enctype="multipart/form-data"
+>
+  <label for="profilePic">Profile Picture</label>
+  <input
+    type="file"
+    name="profilePic"
+    id="profilePic"
+    accept=".jpg, .jpeg, .png"
+  />
+  <button class="btn btnproceed" type="submit">Upload Your Profile Picture</button>
+</form>
+
+<a href="/api/sessions/premium/{{userId}}">Update user role</a>
+
+<a href="/api/products">Back to products</a>
+<a href="/api/sessions/logout">Log out</a>

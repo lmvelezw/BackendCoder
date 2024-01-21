@@ -1,0 +1,35 @@
+<div class="formsContainer">
+<h2>Subscribe here</h2>
+
+<form class="form" method="POST" action="/api/sessions/register">
+  <label for="first_name">First name</label>
+  <input class="input" type="text" name="first_name" />
+
+  <label for="last_name">Last name</label>
+  <input class="input" type="text" name="last_name" />
+
+  <label for="email">Email</label>
+  <input class="input" type="email" name="email" />
+
+  <label for="age">Age</label>
+  <input class="input" type="number" name="age" />
+
+  <label for="password">Password</label>
+  <input class="input" type="password" name="password" />
+
+  <label for="role">Role</label>
+  <select class="input" name="role" id="role">
+    <option value="user" selected>User</option>
+    <option value="premium">Premium</option>
+    <option value="admin">Admin</option>
+  </select>
+
+  <button class="btn btnproceed" type="submit">Create account</button>
+  <div class="btnBox">
+  <p>Already user?</p>
+  <button class="btn"><a href="/api/sessions/login">Log In</a></button>
+  <button class="btn"><a href="/api/sessions/github">Log in with GitHub</a></button>
+  </div>
+  
+</form>
+</div>

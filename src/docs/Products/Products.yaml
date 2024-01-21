@@ -1,0 +1,195 @@
+paths:
+  /api/products:
+    get:
+      summary: Retrieve all products.
+      description: Retrieve a paginated list of products.
+      tags:
+        - Products
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter by category.
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: Limit the number of results.
+        - in: query
+          name: page
+          schema:
+            type: integer
+          description: Page number for pagination.
+        - in: query
+          name: sort
+      responses:
+        "200":
+          description: A paginated list of products.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "500":
+          description: Internal server error
+
+    post:
+      summary: Create a new product.
+      description: Create a new product entry.
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        200:
+          description: Successfully created a new product.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+  /api/products/{id}:
+    get:
+      summary: Retrieve a specific product by ID.
+      description: Retrieve product details by its ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: Product ID.
+      responses:
+        200:
+          description: Product details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    put:
+      summary: Update a product by ID.
+      description: Update product details by its ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: Product ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductInput'
+      responses:
+        200:
+          description: Successfully updated product details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+    delete:
+      summary: Delete a product by ID.
+      description: Delete a product by its ID.
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: Product ID.
+      responses:
+        200:
+          description: Product successfully deleted.
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: ObectId
+          description: Mongo ID
+        title:
+          type: String
+          description: Product title
+        description:
+          type: String
+          description: Product description
+        code:
+          type: String
+          description: Product particular code
+        price:
+          type: Integer
+          description: Product price
+        stock:
+          type: Integer
+          description: Product available stock
+        category:
+          type: String
+          description: Product internal category
+        owner:
+          type: string
+          description: Product owner ID
+      example:
+        _id: ObjectId("65184207a00a89a639352ccb")
+        title: "iPhone X"
+        description: "The iPhone X is the latest model from Apple."
+        code: "IphoneX"
+        price: 999.99
+        stock: 10000
+        category: "Electronics"
+    ProductInput:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Product title
+        description:
+          type: String
+          description: Product description
+        code:
+          type: String
+          description: Product particular code
+        price:
+          type: Integer
+          description: Product price
+        stock:
+          type: Integer
+          description: Product available stock
+        category:
+          type: String
+          description: Product internal category
+        image:
+          type: String
+          description: Product image URL
+    ProductList:
+      type: object
+      properties:
+        docs:
+          type: array
+          items:
+            $ref: "#/components/schemas/Product"
+        hasNextPage:
+          type: boolean
+          description: Indicates if there's a next page.
+        nextPage:
+          type: number
+          description: Next page number.
+        hasPrevPage:
+          type: boolean
+          description: Indicates if there's a previous page.
+        prevPage:
+          type: number
+          description: Previous page number.

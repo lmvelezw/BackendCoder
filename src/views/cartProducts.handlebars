@@ -1,0 +1,35 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <h2>Cart products</h2>
+    <a href="/api/products">Back to products</a>
+
+    {{#each cartsInfo.products}}
+      <ul>
+        <h3>{{product.title}}</h3>
+        <li>{{product.description}}</li>
+        <li>{{product.code}}</li>
+        <li>${{product.price}}</li>
+        <li>{{product.category}}</li>
+        <li>{{quantity}}</li>
+      </ul>
+
+      <a href="#" class="delete-product" data-product-id="{{product._id}}" data-cart-id="{{../cart}}">
+        <span class="material-symbols-outlined">
+          delete
+        </span>
+      </a>
+
+    {{/each}}
+
+<button class="deleteAllItems" data-cart-id="{{cart}}">Delete All Items</button>
+
+    <a href="/api/cart/{{cart}}/purchase" >Finalizar compra</a>
+
+  </body>
+</html>

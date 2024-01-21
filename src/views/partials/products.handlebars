@@ -1,0 +1,53 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products</title>
+  </head>
+  <body>
+
+    <h1>Products</h1>
+
+      {{#each productsInfo.docs}}
+        <div class="product">
+          <ul>
+
+            <h2>{{this.title}}</h2>
+            <li>{{this.description}}</li>
+            <li>{{this.code}}</li>
+            <li>{{this.price}}</li>
+            <li>{{this.category}}</li>
+            <p>Price: ${{this.price}}</p>
+          </ul>
+
+          <form
+            action="/api/cart/{{../user.cart}}/product/{{this._id}}"
+            method="post"
+          >
+            <input type="number" name="quantity" value="1" />
+            <button type="submit" id="addProduct">Agregar al carrito</button>
+          </form>
+
+        </div>
+
+      {{/each}}
+
+    {{#if productsInfo.hasPrevPage}}
+      <a
+        href="/api/products?{{generatePrevPageLink
+          query
+          productsInfo.prevPage
+        }}"
+      >Previous Page</a>
+    {{/if}}
+    {{#if productsInfo.hasNextPage}}
+      <a
+        href="/api/products?{{generateNextPageLink
+          query
+          productsInfo.nextPage
+        }}"
+      >Next Page</a>
+    {{/if}}
+
+  </body>
+</html>

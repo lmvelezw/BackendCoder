@@ -1,0 +1,18 @@
+
+<div class="formsContainer">
+<form class="form"  method="POST" action="/api/sessions/login">
+    <label for="email">Email</label>
+    <input class="input" type="email" name="email" required>
+    <label for="password">Password</label>
+    <input class="input" type="password" name="password" required>
+    <button class="btn btnproceed" type="submit">Log In</button>
+
+    <div class="btnBox">
+    <p>Not an user?</p>
+    <button class="btn"><a href="/api/sessions/register">Create an account</a>
+    <button class="btn"><a href="/api/sessions/github">Log in with GitHub</a></button>
+    <button class="btn"><a href="/api/sessions/verifypassrecovery">Recover Password</a></button>
+    </div>
+</button>
+</form>
+</div>

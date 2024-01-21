@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Roboto:wght@100;500&display=swap");
+* {
+  font-family: "Raleway", sans-serif;
+  font-family: "Roboto", sans-serif;
+}
+
+.formsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 3rem;
+  padding: 2rem;
+  box-shadow: 0 0 1rem 0.5rem rgba(0, 0, 0, 0.2);
+  border-radius: 2rem;
+  background-color: #fafafa;
+  max-width: 50%;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.btnBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 3rem;
+}
+.btn {
+  background-color: rgb(255, 255, 255);
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.5rem 0.25rem rgba(0, 0, 0, 0.2);
+  margin: 0.5rem 0;
+}
+.btnproceed {
+  background-color: #97d0a2;
+}
+.input {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 0.15rem 0.05rem rgba(0, 0, 0, 0.2);
+  margin: 0.5rem 0;
+}

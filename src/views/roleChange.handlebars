@@ -1,0 +1,35 @@
+<div class="formsContainer">
+  <h2>Change your role here</h2>
+
+  <form
+    class="form"
+    method="POST"
+    action="/api/sessions/premium/{{userId}}"
+    id="roleForm"
+    enctype="multipart/form-data"
+  >
+    <label for="Identification">Identification</label>
+    <input
+      type="file"
+      name="documents"
+      id="Identification"
+      accept=".pdf, .doc, .docx"
+    />
+
+    <label for="energyBill">Energy Bill</label>
+    <input type="file" name="documents" id="energyBill" accept=".pdf" />
+
+    <label for="accountStatement">Account Statement</label>
+    <input type="file" name="documents" id="accountStatement" accept=".pdf" />
+
+    <label for="role">Role</label>
+    <select class="input" name="role" id="role">
+      <option value="user" selected>User</option>
+      <option value="premium">Premium</option>
+      <option value="admin">Admin</option>
+    </select>
+
+    <button class="btn btnproceed" type="submit">Update your role</button>
+  </form>
+
+</div>

@@ -1,0 +1,93 @@
+paths:
+  /api/carts:
+    get:
+      summary: Retrieve all carts.
+      description: Retrieve all available carts.
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: A list of carts.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartList'
+    
+    post:
+    summary: Create a new cart.
+    description: Create a new cart entry.
+    tags:
+      - Carts
+    responses:
+      '200':
+        description: Successfully created a new cart.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+  /api/carts/{id}:
+    get:
+      summary: Retrieve a specific cart by ID.
+      description: Retrieve cart details by its ID.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: Cart ID.
+      responses:
+        '200':
+          description: Cart details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+    delete:
+      summary: Delete a cart by ID.
+      description: Delete a cart by its ID.
+      tags:
+        - Carts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: Cart ID.
+      responses:
+        '200':
+          description: Cart successfully deleted.
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Cart ID.
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartProduct'
+      required:
+        - _id
+        - products
+    CartProduct:
+      type: object
+      properties:
+        product:
+          type: string
+          description: Product ID.
+        quantity:
+          type: number
+          description: Quantity of the product in the cart.
+      required:
+        - product
+        - quantity
+    CartList:
+      type: array
+      items:
+        $ref: '#/components/schemas/Cart'
