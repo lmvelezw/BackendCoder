@@ -222,7 +222,11 @@ class UsersManager {
       const updatedUser = await usersDao.updateUserRole(userId, newRole);
       console.log("User role updated:", updatedUser);
 
-      if (req.files && req.files.length > 0) {
+      if (newRole === "premium" && req.files.length < 3) {
+        return console.error("Please upload 3 documents for Premium update");
+      }
+
+      if (newRole === "premium" && req.files.length === 3) {
         const documentReferences = req.files.map((file) => ({
           doc_name: file.originalname,
           doc_reference: file.filename,
