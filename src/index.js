@@ -29,7 +29,6 @@ app.use(
   session({
     store: MongoStore.create({
       mongoUrl: config.mongoUrl,
-      mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true },
       ttl: 1000,
     }),
     secret: config.sessionSecret,

@@ -2,6 +2,7 @@ import cartsModel from "../models/carts.model.js";
 import Products from "./product.dao.js";
 import ticketModel from "../models/ticket.model.js";
 import { nanoid } from "nanoid";
+import productModel from "../models/products.model.js";
 
 const products = new Products();
 
@@ -34,13 +35,13 @@ class Carts {
     }
   }
 
-  async createProductInCart(cid, pid, quantity) {
+  async createProductInCart(cid, pid, quantity, role, email) {
     try {
-      const { role, email } = req.session.user;
+      // const { role, email } = req.session.user;
       let product = await productModel.findById(pid);
       let owner = product.owner;
 
-      if (role === "premium" && email === owner){
+      if (role === "premium" && email === owner) {
         throw new Error("You can't add your own product to the shopping cart!");
       }
 

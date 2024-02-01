@@ -4,6 +4,7 @@ import UsersManager from "../controllers/usersControllers.js";
 import passport from "passport";
 import userModel from "../dao/models/users.model.js";
 import { createHash, isValidPassword } from "../utils.js";
+import { checkAccess } from "../controllers/accessControl.js";
 
 const userManager = new UsersManager();
 const sessionRouter = Router();
@@ -116,5 +117,12 @@ sessionRouter.post(
     res.redirect("/api/sessions/login");
   }
 );
+
+sessionRouter.post(
+  "/users",
+  checkAccess(["admin"]),
+  userManager.deleteInactiveUser
+);
+sessionRouter.get("/users", checkAccess(["admin"]), userManager.getUsers);
 
 export default sessionRouter;

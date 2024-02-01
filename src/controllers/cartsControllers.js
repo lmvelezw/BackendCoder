@@ -1,20 +1,20 @@
 import Carts from "../dao/classes/carts.dao.js";
 import Products from "../dao/classes/product.dao.js";
-import config from '../config/config.js'
-import nodemailer from 'nodemailer'
-import customError from "../services/errors/CustomError.js"
+import config from "../config/config.js";
+import nodemailer from "nodemailer";
+import customError from "../services/errors/CustomError.js";
 
-const specificError = new customError()
+const specificError = new customError();
 
 //Nodemailer
 const transport = nodemailer.createTransport({
   service: "gmail",
   port: 8080,
-  auth:{
+  auth: {
     user: config.gmailUser,
-    pass: config.gmailPass
-  }
-})
+    pass: config.gmailPass,
+  },
+});
 
 const carts = new Carts();
 const products = new Products();
@@ -40,7 +40,11 @@ class CartManager {
       return res.render("cartProducts", { cartsInfo, cart });
     } catch (error) {
       console.log("err", error);
-      specificError({statusCode: 500, causeKey: 'SERVER_ERROR', message: 'Error occurred while fetching carts' })
+      specificError({
+        statusCode: 500,
+        causeKey: "SERVER_ERROR",
+        message: "Error occurred while fetching carts",
+      });
       return res.status(500).send("Server Error");
     }
   }
@@ -58,6 +62,7 @@ class CartManager {
   async createProductInCart(req, res) {
     let { cid, pid } = req.params;
     let quantity = req.body.quantity;
+    let { role, email } = req.session.user;
 
     try {
       if (!cid || !pid || !quantity) {
@@ -67,7 +72,13 @@ class CartManager {
         });
       }
 
-      let updatedCart = await carts.createProductInCart(cid, pid, quantity);
+      let updatedCart = await carts.createProductInCart(
+        cid,
+        pid,
+        quantity,
+        role,
+        email
+      );
 
       return res.redirect("/api/products");
     } catch (error) {
@@ -126,7 +137,7 @@ class CartManager {
   async closedPurchase(req, res) {
     try {
       let { cid } = req.params;
-      let user = req.session.user.email.toString()
+      let user = req.session.user.email.toString();
 
       let result = await carts.closedPurchase(cid, req);
 
@@ -135,8 +146,7 @@ class CartManager {
         to: user,
         subject: `Ticket de compra`,
         text: JSON.stringify(result),
-      })
-
+      });
 
       return res.send({ result: "success", payload: result });
     } catch (error) {

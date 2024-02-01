@@ -14,7 +14,8 @@ cartRouter.use((req, res, next) => {
 cartRouter.get("/", cartManager.readCarts);
 cartRouter.get("/:id", checkAccess(["user"]), cartManager.getCartByID);
 cartRouter.post("/", cartManager.createCart);
-cartRouter.post("/:cid/product/:pid",
+cartRouter.post(
+  "/:cid/product/:pid",
   checkAccess(["user"]),
   cartManager.createProductInCart
 );
@@ -31,8 +32,15 @@ cartRouter.delete(
 );
 
 // cartRouter.get("/:cid/purchase", checkAccess(["user"]), cartManager.readClosedPurchase)
-cartRouter.post("/:cid/purchase", checkAccess(["user"]), cartManager.closedPurchase)
-cartRouter.get("/:cid/purchase", checkAccess(["user"]), cartManager.closedPurchase)
-
+cartRouter.post(
+  "/:cid/purchase",
+  checkAccess(["user"]),
+  cartManager.closedPurchase
+);
+cartRouter.get(
+  "/:cid/purchase",
+  checkAccess(["user"]),
+  cartManager.closedPurchase
+);
 
 export default cartRouter;

@@ -83,7 +83,7 @@ class UsersManager {
       const currentTime = Date.now();
       let userId = req.user._id;
       await userModel.findByIdAndUpdate(userId, {
-        lastConnection: currentTime,
+        last_connection: currentTime,
       });
 
       return res.redirect("/api/products");
@@ -105,6 +105,38 @@ class UsersManager {
     } catch (error) {
       console.error("Error:", error);
       return res.status(500).send("Server Error");
+    }
+  }
+
+  async getUsers(req, res) {
+    try {
+      const users = await usersDao.getAllUsers();
+
+      return res.render("users", { users });
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).send("Server Error");
+    }
+  }
+
+  async deleteInactiveUser(req, res) {
+    try {
+      const inactiveUsers = await usersDao.findInactiveUsers();
+
+      for (const user of inactiveUsers) {
+        await transport.sendMail({
+          from: config.gmailUser,
+          to: user.email,
+          subject: `Account Deletion Notice`,
+          text: `Account has been deleted due to inactivity.`,
+        });
+      }
+
+      await usersDao.deleteInactiveUsers();
+      return res.redirect("/api/sessions/users");
+    } catch (error) {
+      console.error("Controller error in deleteInactiveUser:", error);
+      res.status(500).send("Server error");
     }
   }
 
