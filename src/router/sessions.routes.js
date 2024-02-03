@@ -125,4 +125,16 @@ sessionRouter.post(
 );
 sessionRouter.get("/users", checkAccess(["admin"]), userManager.getUsers);
 
+sessionRouter.post(
+  "/users/:userId",
+  checkAccess(["admin"]),
+  userManager.deleteSpecificUser
+);
+
+sessionRouter.post(
+  "/adminRoleUpdate/:userId",
+  checkAccess(["admin"]),
+  userManager.adminRoleUpdate
+);
+
 export default sessionRouter;

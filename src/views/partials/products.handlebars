@@ -10,8 +10,8 @@
 
       {{#each productsInfo.docs}}
         <div class="product">
+          
           <ul>
-
             <h2>{{this.title}}</h2>
             <li>{{this.description}}</li>
             <li>{{this.code}}</li>
@@ -20,6 +20,8 @@
             <p>Price: ${{this.price}}</p>
           </ul>
 
+          {{#if ../user}}
+          {{#if (eq ../user.role "user")}}
           <form
             action="/api/cart/{{../user.cart}}/product/{{this._id}}"
             method="post"
@@ -27,6 +29,20 @@
             <input type="number" name="quantity" value="1" />
             <button type="submit" id="addProduct">Agregar al carrito</button>
           </form>
+          {{/if}}
+
+          {{#if (neq ../user.role "user")}}
+            <form action="/api/products/{{this._id}}" method="post">
+              <input type="hidden" name="_method" value="DELETE" />
+              <button type="submit" class="delete-user">
+                <span class="material-symbols-outlined">
+                  delete
+                </span>
+              </button>
+            </form>
+        {{/if}}
+
+        {{/if}}
 
         </div>
 

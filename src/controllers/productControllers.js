@@ -34,7 +34,7 @@ class ProductManager {
   async createProduct(req, res) {
     try {
       let result = await productsDao.createProduct(req);
-      return res.send({ result: "success", payload: result });
+      return res.redirect("/api/products");
     } catch (error) {
       return console.log(error);
     }
@@ -65,7 +65,15 @@ class ProductManager {
   async deleteProduct(req, res) {
     try {
       let result = await productsDao.deleteProduct(req);
-      res.send({ result: "success", payload: result });
+      return res.redirect("/api/products");
+    } catch (error) {
+      console.log("err", error);
+      return res.status(500).send("Server Error");
+    }
+  }
+  async newProduct(req, res) {
+    try {
+      return res.render("createProduct");
     } catch (error) {
       console.log("err", error);
       return res.status(500).send("Server Error");

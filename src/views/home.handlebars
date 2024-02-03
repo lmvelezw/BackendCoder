@@ -9,7 +9,15 @@
      {{#if user}}
       <p>Hola, {{user.first_name}} {{user.last_name}}</p>
       {{> profile}}
+      {{#if (eq user.role "admin") }}
+        <a href="/api/sessions/users">Manage all users</a>
+      {{/if}}
+
+      {{#if (neq user.role "user") }}
+        <a href="/api/products/new">Create products</a>
+      {{/if}}
       
+      {{#if (eq user.role "user") }}
       {{#if user.cart }}
         <a href="/api/cart/{{user.cart}}"> 
           <span id="shopping-Bag" class="material-symbols-outlined">
@@ -18,6 +26,7 @@
         </a>
       {{else}}
         <p>No cart found for the user</p>
+      {{/if}}
       {{/if}}
       
     {{else}}

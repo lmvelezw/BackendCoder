@@ -140,6 +140,18 @@ class UsersManager {
     }
   }
 
+  async deleteSpecificUser(req, res) {
+    try {
+      const { role } = req.session.user;
+      const { userId } = req.params;
+      await usersDao.deleteUserByID(userId, role);
+      return res.redirect("/api/sessions/users");
+    } catch (error) {
+      console.log("err", error);
+      return res.status(500).send("Server Error");
+    }
+  }
+
   async fullProfileUser(req, res) {
     try {
       if (!req.session.user) {
@@ -220,6 +232,18 @@ class UsersManager {
     try {
       let userId = req.session.user.userId;
       return res.render("roleChange", { userId });
+    } catch (error) {
+      console.log("err", error);
+      return res.status(500).send("Server Error");
+    }
+  }
+
+  async adminRoleUpdate(req, res) {
+    try {
+      const { newRole } = req.body;
+      const { userId } = req.params;
+      await usersDao.adminRoleUpdate(userId, newRole);
+      return res.redirect("/api/sessions/users");
     } catch (error) {
       console.log("err", error);
       return res.status(500).send("Server Error");

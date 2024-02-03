@@ -13,7 +13,6 @@ const productSchema = new mongoose.Schema({
   owner: {
     type: mongoose.Types.ObjectId,
     ref: "users",
-    default: "admin",
     require: true,
   },
 });

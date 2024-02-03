@@ -1,4 +1,16 @@
 import productModel from "../models/products.model.js";
+import nodemailer from "nodemailer";
+import config from "../../config/config.js";
+import userModel from "../models/users.model.js";
+
+const transport = nodemailer.createTransport({
+  service: "gmail",
+  port: 8080,
+  auth: {
+    user: config.gmailUser,
+    pass: config.gmailPass,
+  },
+});
 
 class Products {
   constructor() {}
@@ -64,7 +76,7 @@ class Products {
       throw new Error("User has no permissions");
     }
 
-    const owner = req.session.user ? req.session.user.email : "admin";
+    const owner = req.session.user.userId;
 
     if (!title || !description || !code || !price || !stock || !category) {
       throw new Error("Incomplete data");
@@ -78,7 +90,7 @@ class Products {
         stock,
         category,
         image,
-        owner,
+        owner: owner,
       });
       return result;
     } catch (error) {
@@ -94,16 +106,32 @@ class Products {
       console.log("err", error);
     }
   }
-
   async deleteProduct(req) {
     let { id } = req.params;
     const { role, email } = req.session.user;
     let product = await productModel.findById(id);
-    let owner = product.owner;
+    let ownerId = product.owner;
 
     try {
-      if (role === "admin" || (role === "premium" && email === owner)) {
+      const ownerUser = await userModel.findById(ownerId);
+      if (!ownerUser) {
+        throw new Error("Owner not found");
+      }
+      let ownerEmail = ownerUser.email;
+      let ownerRole = ownerUser.role;
+
+      if (role === "admin" || (role === "premium" && email === ownerEmail)) {
         let result = await productModel.deleteOne({ _id: id });
+
+        if (ownerRole === "premium") {
+          await transport.sendMail({
+            from: config.gmailUser,
+            to: ownerEmail,
+            subject: "Product Deletion Notification",
+            text: `Your product titled "${product.title}" has been successfully deleted.`,
+          });
+        }
+
         return result;
       } else {
         throw new Error("Unauthorized to delete this product");

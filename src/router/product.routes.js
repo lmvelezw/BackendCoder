@@ -31,13 +31,23 @@ handlebars.registerHelper("generatePrevPageLink", (query, prevPage) => {
 });
 
 // http://localhost:8080/api/products?category=Mesa&limit=1&sort=asc&page=2
+ProductRouter.get(
+  "/new",
+  checkAccess(["admin", "premium"]),
+  productManager.newProduct
+);
 ProductRouter.get("/", productManager.getAllProducts);
 ProductRouter.get("/:id", productManager.getProductByID);
-ProductRouter.post("/", checkAccess(["admin","premium"]), productManager.createProduct);
+
+ProductRouter.post(
+  "/",
+  checkAccess(["admin", "premium"]),
+  productManager.createProduct
+);
 ProductRouter.put("/:id", checkAccess(["admin"]), productManager.updateProduct);
-ProductRouter.delete(
+ProductRouter.post(
   "/:id",
-  checkAccess(["admin","premium"]),
+  checkAccess(["admin", "premium"]),
   productManager.deleteProduct
 );
 

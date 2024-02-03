@@ -10,6 +10,19 @@ class Users {
     }
   }
 
+  async deleteUserByID(id, role) {
+    try {
+      if (role === "admin") {
+        let result = await userModel.deleteOne({ _id: id });
+        return result;
+      } else {
+        throw new Error("Unauthorized to delete this user");
+      }
+    } catch (error) {
+      console.log("err", error);
+    }
+  }
+
   async getAllUsers() {
     try {
       let allUsers = await userModel.find();
@@ -50,6 +63,18 @@ class Users {
     } catch (error) {
       console.log("DAO error in deleteInactiveUsers:", error);
       throw error;
+    }
+  }
+
+  async adminRoleUpdate(userId, newRole) {
+    try {
+      let result = await userModel.updateOne(
+        { _id: userId },
+        { role: newRole }
+      );
+      return result;
+    } catch (error) {
+      console.log("err", error);
     }
   }
 }

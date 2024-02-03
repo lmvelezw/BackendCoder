@@ -48,14 +48,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/public")));
 
-app.engine("handlebars", engine());
+app.engine(
+  "handlebars",
+  engine({
+    helpers: {
+      eq: (arg1, arg2) => arg1 === arg2,
+      neq: (arg1, arg2) => arg1 !== arg2,
+    },
+    partialsDir: __dirname + "/views/partials",
+  })
+);
 app.set("view engine", "handlebars");
 app.set("views", path.resolve(__dirname + "/views"));
 app.use("/", express.static(__dirname + "/public"));
-app.engine(
-  "handlebars",
-  engine({ partialsDir: __dirname + "/views/partials" })
-);
 
 //Swagger
 const swaggerOptions = {
